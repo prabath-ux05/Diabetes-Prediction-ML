@@ -49,7 +49,7 @@ The model uses the following health parameters:
 The dataset is processed using **Python and Scikit-learn**, and a classification model is trained to predict the outcome.
 
 ---
-## 📷 Project Screenshots
+## 📷 Project Demo Images
 
 ### n8n Workflow
 
@@ -65,11 +65,9 @@ The dataset is processed using **Python and Scikit-learn**, and a classification
 
 ---
 
-## ⚙️ System Architecture
+### ⚙️ System Workflow
 
-The system combines **"Machine Learning with Workflow Automation"**.
-
-
+```
 Google Sheets
       ↓
 n8n Workflow
@@ -83,7 +81,7 @@ Prediction Result
 IF Condition (Risk Detection)
       ↓
 Email Notification
-
+```
 ---
 
 ## 🔄 Workflow Explanation
@@ -151,26 +149,28 @@ This helps provide **early warning and preventive awareness**.
 ---
 
 ## 📂 Project Structure
+
+```
 diabetes-prediction-ml-n8n
-|
-|-- dataset
-│  |-- diabetes.csv
 │
-|-- model
-│ ├── train_model.py
-│ └── diabetes_model.pkl
+├── dataset
+│   └── diabetes.csv
+│
+├── model
+│   ├── train_model.py
+│   └── diabetes_model.pkl
 │
 ├── n8n-workflow
-│ └── diabetes_predictor_workflow.json
+│   └── diabetes_predictor_workflow.json
 │
 ├── screenshots
-│ ├── workflow.png
-│ ├── sheet-data.png
-│ └── email-alert.png
+│   ├── workflow.png
+│   ├── sheet-data.png
+│   └── email-alert.png
 │
 ├── requirements.txt
 └── README.md
-
+```
 
 ---
 
