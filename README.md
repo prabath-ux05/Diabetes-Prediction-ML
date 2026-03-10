@@ -68,6 +68,8 @@ The dataset is processed using **Python and Scikit-learn**, and a classification
 ## ⚙️ System Architecture
 
 The system combines **"Machine Learning with Workflow Automation"**.
+
+
 Google Sheets
       ↓
 n8n Workflow
@@ -86,14 +88,14 @@ Email Notification
 
 ## 🔄 Workflow Explanation
 
-### 1️⃣ Data Collection
+### 1️. Data Collection
 
 User health data is stored in **Google Sheets**.  
 Each row represents a patient's health parameters.
 
 ---
 
-### 2️⃣ Workflow Automation (n8n)
+### 2️. Workflow Automation (n8n)
 
 The automation platform **n8n** reads the patient data from Google Sheets and processes it through a workflow pipeline.
 
@@ -106,19 +108,21 @@ Key workflow nodes:
 
 ---
 
-### 3️⃣ Machine Learning Prediction
+### 3️. Machine Learning Prediction
 
 The ML model processes the patient health data and predicts whether the patient has diabetes risk.
 
 Prediction output:
+
 0 → No Diabetes Risk
 1 → Diabetes Risk
 
 ---
 
-### 4️⃣ Risk Detection Logic
+### 4️. Risk Detection Logic
 
 The **IF condition in n8n** evaluates the ML prediction:
+
 If prediction == 1
 Send Email Alert
 Else
@@ -126,7 +130,7 @@ No action required
 
 ---
 
-### 5️⃣ Email Notification
+### 5️. Email Notification
 
 If the system detects diabetes risk, an automated email notification is sent to inform the user.
 
@@ -148,11 +152,11 @@ This helps provide **early warning and preventive awareness**.
 
 ## 📂 Project Structure
 diabetes-prediction-ml-n8n
+|
+|-- dataset
+│  |-- diabetes.csv
 │
-├── dataset
-│ └── diabetes.csv
-│
-├── model
+|-- model
 │ ├── train_model.py
 │ └── diabetes_model.pkl
 │
