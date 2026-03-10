@@ -112,8 +112,8 @@ The ML model processes the patient health data and predicts whether the patient 
 
 Prediction output:
 
-0 → No Diabetes Risk
-1 → Diabetes Risk
+- `0` → No Diabetes
+- `1` → Diabetes Risk
 
 ---
 
@@ -122,8 +122,11 @@ Prediction output:
 The **IF condition in n8n** evaluates the ML prediction:
 
 If prediction == 1
+
 Send Email Alert
+
 Else
+
 No action required
 
 ---
