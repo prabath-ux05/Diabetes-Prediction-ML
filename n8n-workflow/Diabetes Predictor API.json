@@ -1,0 +1,186 @@
+{
+  "name": "Diabetes Predictor API",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "30cfcf0f-45c1-4c7a-a6c9-e7f005668f88",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        192,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1G3TmHTwYbYsE-rSm_mNTNCpwqXj7bhzlqACdUbSgszI",
+          "mode": "list",
+          "cachedResultName": "Diabetes Predictor",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3TmHTwYbYsE-rSm_mNTNCpwqXj7bhzlqACdUbSgszI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3TmHTwYbYsE-rSm_mNTNCpwqXj7bhzlqACdUbSgszI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "85d32fd5-2035-48dc-85b2-03f4e0a097ef",
+      "name": "Read Users from Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        416,
+        272
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8JQ3S2VOqwQbqBPH",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5000/predict",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"Pregnancies\": {{$json[\"Pregnancies\"]}},\n  \"Glucose\": {{$json[\"Glucose\"]}},\n  \"BloodPressure\": {{$json[\"BloodPressure\"]}},\n  \"SkinThickness\": {{$json[\"SkinThickness\"]}},\n  \"Insulin\": {{$json[\"Insulin\"]}},\n  \"BMI\": {{$json[\"BMI\"]}},\n  \"DiabetesPedigreeFunction\": {{$json[\"DiabetesPedigreeFunction\"]}},\n  \"Age\": {{$json[\"Age\"]}}\n}",
+        "options": {}
+      },
+      "id": "4bfcfa23-f82d-49b2-9890-949bb571f654",
+      "name": "ML Prediction API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        656,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "dvprabhu1205@gmail.com",
+        "subject": "ML Health Prediction Alert",
+        "emailType": "text",
+        "message": "=Prediction result: {{$json[\"prediction\"]}}\n\nPlease check patient details.",
+        "options": {}
+      },
+      "id": "207cc793-e314-4e19-ac75-81a320323e14",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1088,
+        272
+      ],
+      "webhookId": "237c1530-e75d-4cf8-b547-06f09a064b2a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "RizEH2spCMQ6mhsX",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5ce56766-a5e2-4a0f-9c0d-3725890c6dc3",
+              "leftValue": "=Value 1 → {{$json[\"prediction\"]}}\nOperation → Equal\nValue 2 → 1",
+              "rightValue": 1,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        864,
+        272
+      ],
+      "id": "379946a2-1eca-4547-a51a-8539bf5f200f",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Users from Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Users from Google Sheet": {
+      "main": [
+        [
+          {
+            "node": "ML Prediction API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ML Prediction API": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "43399761-88a3-4b85-8e52-3d543563815b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4e86c37002818639b21186a86646c95f1092b5e9fa78637b4a3bda0633ed336d"
+  },
+  "id": "x0uLQ2pygK6JnYZl",
+  "tags": []
+}
